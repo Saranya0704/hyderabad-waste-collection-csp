@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_67a28342a97896d6828a61dedeaf0b1a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+<h3 align="center" style="font-size:16px"><b>Hyderabad Waste Collection Route Optimization</b></h3>
+    
+    <div style="position: fixed; 
+                bottom: 60px; left: 10px; width: 250px; 
+                height: 70px; 
+                border:2px solid red; 
+                z-index:9999; 
+                background-color:white;
+                padding: 5px;
+                border-radius: 5px;">
+        <p><b>Route 1</b><br>
+        Bins: 2<br>
+        Total Waste: 885.0 kg<br>
+        Areas: ECIL, Banjara Hills</p>
+    </div>
+    
+    
+    <div style="position: fixed; 
+                bottom: 140px; left: 10px; width: 250px; 
+                height: 70px; 
+                border:2px solid blue; 
+                z-index:9999; 
+                background-color:white;
+                padding: 5px;
+                border-radius: 5px;">
+        <p><b>Route 2</b><br>
+        Bins: 2<br>
+        Total Waste: 800.0 kg<br>
+        Areas: Mehdipatnam, Secunderabad</p>
+    </div>
+    
+    
+    <div style="position: fixed; 
+                bottom: 220px; left: 10px; width: 250px; 
+                height: 70px; 
+                border:2px solid green; 
+                z-index:9999; 
+                background-color:white;
+                padding: 5px;
+                border-radius: 5px;">
+        <p><b>Route 3</b><br>
+        Bins: 2<br>
+        Total Waste: 765.0 kg<br>
+        Areas: Kukatpally, Ameerpet</p>
+    </div>
+    
+    
+    <div style="position: fixed; 
+                bottom: 300px; left: 10px; width: 250px; 
+                height: 70px; 
+                border:2px solid purple; 
+                z-index:9999; 
+                background-color:white;
+                padding: 5px;
+                border-radius: 5px;">
+        <p><b>Route 4</b><br>
+        Bins: 2<br>
+        Total Waste: 805.0 kg<br>
+        Areas: Uppal, Jubilee Hills</p>
+    </div>
+    
+    
+    <div style="position: fixed; 
+                bottom: 380px; left: 10px; width: 250px; 
+                height: 70px; 
+                border:2px solid orange; 
+                z-index:9999; 
+                background-color:white;
+                padding: 5px;
+                border-radius: 5px;">
+        <p><b>Route 5</b><br>
+        Bins: 2<br>
+        Total Waste: 610.0 kg<br>
+        Areas: LB Nagar, Film Nagar</p>
+    </div>
+    
+    
+<div style="position: fixed; 
+            bottom: 50px; right: 10px; 
+            border:2px solid grey; z-index:9999; 
+            background-color:white;
+            padding: 10px;
+            border-radius: 5px;">
+    <p><b>Waste Types</b><br>
+    <i class="fa fa-trash fa-1x" style="color:green"></i> Organic<br>
+    <i class="fa fa-trash fa-1x" style="color:blue"></i> Recyclable<br>
+    <i class="fa fa-trash fa-1x" style="color:red"></i> Hazardous<br>
+    <i class="fa fa-trash fa-1x" style="color:orange"></i> General</p>
+</div>
+    
+            <div class="folium-map" id="map_67a28342a97896d6828a61dedeaf0b1a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_67a28342a97896d6828a61dedeaf0b1a = L.map(
+                "map_67a28342a97896d6828a61dedeaf0b1a",
+                {
+                    center: [17.385, 78.4867],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_045e9fe3de7170564926cec8e4d99e9f = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_045e9fe3de7170564926cec8e4d99e9f.addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            var marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec = L.markerClusterGroup(
+                {
+}
+            );
+        
+    
+            var marker_efca00b8c797b0c9e44ea99fa463300a = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_1d574555d3f3dc9fa0e4ff5c3550287d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_aa519a8dbf2256bd1331a54722bdf455 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b5c299b0e271c89451f610ae4a456a36 = $(`<div id="html_b5c299b0e271c89451f610ae4a456a36" style="width: 100.0%; height: 100.0%;">     <b>Bin #1</b><br>     Area: Banjara Hills<br>     Fill Level: 85%<br>     Waste Type: Organic<br>     Estimated Amount: 425 kg     </div>`)[0];
+                popup_aa519a8dbf2256bd1331a54722bdf455.setContent(html_b5c299b0e271c89451f610ae4a456a36);
+            
+        
+
+        marker_efca00b8c797b0c9e44ea99fa463300a.bindPopup(popup_aa519a8dbf2256bd1331a54722bdf455)
+        ;
+
+        
+    
+    
+            marker_efca00b8c797b0c9e44ea99fa463300a.bindTooltip(
+                `<div>
+                     Bin #1 - Banjara Hills
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_efca00b8c797b0c9e44ea99fa463300a.setIcon(icon_1d574555d3f3dc9fa0e4ff5c3550287d);
+            
+    
+            var marker_b7671fbb7eac1651303193bbd044df0e = L.marker(
+                [17.44, 78.448],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_2894770fa32647b7e0d707719f8057f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_027f9509aa5ab472c9359b0e75b1c6ef = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d13b84c1c9145cd03f18bc948faaf8be = $(`<div id="html_d13b84c1c9145cd03f18bc948faaf8be" style="width: 100.0%; height: 100.0%;">     <b>Bin #2</b><br>     Area: Secunderabad<br>     Fill Level: 70%<br>     Waste Type: Recyclable<br>     Estimated Amount: 350 kg     </div>`)[0];
+                popup_027f9509aa5ab472c9359b0e75b1c6ef.setContent(html_d13b84c1c9145cd03f18bc948faaf8be);
+            
+        
+
+        marker_b7671fbb7eac1651303193bbd044df0e.bindPopup(popup_027f9509aa5ab472c9359b0e75b1c6ef)
+        ;
+
+        
+    
+    
+            marker_b7671fbb7eac1651303193bbd044df0e.bindTooltip(
+                `<div>
+                     Bin #2 - Secunderabad
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b7671fbb7eac1651303193bbd044df0e.setIcon(icon_2894770fa32647b7e0d707719f8057f4);
+            
+    
+            var marker_a188cef736ca8c5bbddc1d9cb660ab15 = L.marker(
+                [17.3616, 78.4747],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_cad3e34024e2f4c9c18b5b6ba06682bf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5e3731a854f4fafc80b6193bf9ff5e90 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6239630f9292d2058c35f66e7573b14a = $(`<div id="html_6239630f9292d2058c35f66e7573b14a" style="width: 100.0%; height: 100.0%;">     <b>Bin #3</b><br>     Area: Mehdipatnam<br>     Fill Level: 90%<br>     Waste Type: General<br>     Estimated Amount: 450 kg     </div>`)[0];
+                popup_5e3731a854f4fafc80b6193bf9ff5e90.setContent(html_6239630f9292d2058c35f66e7573b14a);
+            
+        
+
+        marker_a188cef736ca8c5bbddc1d9cb660ab15.bindPopup(popup_5e3731a854f4fafc80b6193bf9ff5e90)
+        ;
+
+        
+    
+    
+            marker_a188cef736ca8c5bbddc1d9cb660ab15.bindTooltip(
+                `<div>
+                     Bin #3 - Mehdipatnam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a188cef736ca8c5bbddc1d9cb660ab15.setIcon(icon_cad3e34024e2f4c9c18b5b6ba06682bf);
+            
+    
+            var marker_6abec2248e2121aee953aafa9ecc7b36 = L.marker(
+                [17.4156, 78.4347],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_0eddf4834f9d25e01a302542a40aba5f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1511de51806590e4025762c6c5f4d430 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b7db6a40a346fc60062a72a9079a0847 = $(`<div id="html_b7db6a40a346fc60062a72a9079a0847" style="width: 100.0%; height: 100.0%;">     <b>Bin #4</b><br>     Area: Ameerpet<br>     Fill Level: 65%<br>     Waste Type: Hazardous<br>     Estimated Amount: 325 kg     </div>`)[0];
+                popup_1511de51806590e4025762c6c5f4d430.setContent(html_b7db6a40a346fc60062a72a9079a0847);
+            
+        
+
+        marker_6abec2248e2121aee953aafa9ecc7b36.bindPopup(popup_1511de51806590e4025762c6c5f4d430)
+        ;
+
+        
+    
+    
+            marker_6abec2248e2121aee953aafa9ecc7b36.bindTooltip(
+                `<div>
+                     Bin #4 - Ameerpet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6abec2248e2121aee953aafa9ecc7b36.setIcon(icon_0eddf4834f9d25e01a302542a40aba5f);
+            
+    
+            var marker_32b795c3055036085e90beb7deedb8a1 = L.marker(
+                [17.3855, 78.457],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_0dec6d324e8c367742c3a1964aa86a58 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c46a0fe7c79c58a6a8e117baae337eed = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1daeaa0e2e769a45d03ef53c981866c3 = $(`<div id="html_1daeaa0e2e769a45d03ef53c981866c3" style="width: 100.0%; height: 100.0%;">     <b>Bin #5</b><br>     Area: Jubilee Hills<br>     Fill Level: 78%<br>     Waste Type: Recyclable<br>     Estimated Amount: 390 kg     </div>`)[0];
+                popup_c46a0fe7c79c58a6a8e117baae337eed.setContent(html_1daeaa0e2e769a45d03ef53c981866c3);
+            
+        
+
+        marker_32b795c3055036085e90beb7deedb8a1.bindPopup(popup_c46a0fe7c79c58a6a8e117baae337eed)
+        ;
+
+        
+    
+    
+            marker_32b795c3055036085e90beb7deedb8a1.bindTooltip(
+                `<div>
+                     Bin #5 - Jubilee Hills
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_32b795c3055036085e90beb7deedb8a1.setIcon(icon_0dec6d324e8c367742c3a1964aa86a58);
+            
+    
+            var marker_8423ea3b8e8cb6bc8b233b820f8a82bd = L.marker(
+                [17.45, 78.5266],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_9974d98a55571011614164573798090f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_73eac40ab630642f470889c92b914bd4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_af3dee30824cca33566fe12640482941 = $(`<div id="html_af3dee30824cca33566fe12640482941" style="width: 100.0%; height: 100.0%;">     <b>Bin #6</b><br>     Area: ECIL<br>     Fill Level: 92%<br>     Waste Type: Organic<br>     Estimated Amount: 460 kg     </div>`)[0];
+                popup_73eac40ab630642f470889c92b914bd4.setContent(html_af3dee30824cca33566fe12640482941);
+            
+        
+
+        marker_8423ea3b8e8cb6bc8b233b820f8a82bd.bindPopup(popup_73eac40ab630642f470889c92b914bd4)
+        ;
+
+        
+    
+    
+            marker_8423ea3b8e8cb6bc8b233b820f8a82bd.bindTooltip(
+                `<div>
+                     Bin #6 - ECIL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8423ea3b8e8cb6bc8b233b820f8a82bd.setIcon(icon_9974d98a55571011614164573798090f);
+            
+    
+            var marker_9c501f509f6c24f495e3b51a93ae5db0 = L.marker(
+                [17.384, 78.4563],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_ab49b0494c7716bf62f71e51fd57e4f0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a9a0820b225893167f7aae52b18f03a5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f6fdda6e745c5ef80d064964f95fdfe2 = $(`<div id="html_f6fdda6e745c5ef80d064964f95fdfe2" style="width: 100.0%; height: 100.0%;">     <b>Bin #7</b><br>     Area: Film Nagar<br>     Fill Level: 55%<br>     Waste Type: General<br>     Estimated Amount: 275 kg     </div>`)[0];
+                popup_a9a0820b225893167f7aae52b18f03a5.setContent(html_f6fdda6e745c5ef80d064964f95fdfe2);
+            
+        
+
+        marker_9c501f509f6c24f495e3b51a93ae5db0.bindPopup(popup_a9a0820b225893167f7aae52b18f03a5)
+        ;
+
+        
+    
+    
+            marker_9c501f509f6c24f495e3b51a93ae5db0.bindTooltip(
+                `<div>
+                     Bin #7 - Film Nagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9c501f509f6c24f495e3b51a93ae5db0.setIcon(icon_ab49b0494c7716bf62f71e51fd57e4f0);
+            
+    
+            var marker_db626162a069b93962ebf211284e1f1c = L.marker(
+                [17.4474, 78.5068],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_c46ff936df0cbf4db76d50289490d9a3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2e8376c37a2b4c41101f0ee87a646f8e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_cc6cb9c10d1b2b15e5fa8f817bf91389 = $(`<div id="html_cc6cb9c10d1b2b15e5fa8f817bf91389" style="width: 100.0%; height: 100.0%;">     <b>Bin #8</b><br>     Area: Uppal<br>     Fill Level: 83%<br>     Waste Type: Recyclable<br>     Estimated Amount: 415 kg     </div>`)[0];
+                popup_2e8376c37a2b4c41101f0ee87a646f8e.setContent(html_cc6cb9c10d1b2b15e5fa8f817bf91389);
+            
+        
+
+        marker_db626162a069b93962ebf211284e1f1c.bindPopup(popup_2e8376c37a2b4c41101f0ee87a646f8e)
+        ;
+
+        
+    
+    
+            marker_db626162a069b93962ebf211284e1f1c.bindTooltip(
+                `<div>
+                     Bin #8 - Uppal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_db626162a069b93962ebf211284e1f1c.setIcon(icon_c46ff936df0cbf4db76d50289490d9a3);
+            
+    
+            var marker_c8aeade4ea4d67b443a254ff10a0fb3e = L.marker(
+                [17.3687, 78.5247],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_7f81ab19fee3c0c603f779afd267fac5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_81d72f7fe69fe11a0479b1bda3405b51 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5d660bd6df2e7ab87a15388eef9965a4 = $(`<div id="html_5d660bd6df2e7ab87a15388eef9965a4" style="width: 100.0%; height: 100.0%;">     <b>Bin #9</b><br>     Area: LB Nagar<br>     Fill Level: 67%<br>     Waste Type: Organic<br>     Estimated Amount: 335 kg     </div>`)[0];
+                popup_81d72f7fe69fe11a0479b1bda3405b51.setContent(html_5d660bd6df2e7ab87a15388eef9965a4);
+            
+        
+
+        marker_c8aeade4ea4d67b443a254ff10a0fb3e.bindPopup(popup_81d72f7fe69fe11a0479b1bda3405b51)
+        ;
+
+        
+    
+    
+            marker_c8aeade4ea4d67b443a254ff10a0fb3e.bindTooltip(
+                `<div>
+                     Bin #9 - LB Nagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c8aeade4ea4d67b443a254ff10a0fb3e.setIcon(icon_7f81ab19fee3c0c603f779afd267fac5);
+            
+    
+            var marker_c2cec0932d0480b105e1f02ae8abe23b = L.marker(
+                [17.5169, 78.3428],
+                {
+}
+            ).addTo(marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec);
+        
+    
+            var icon_aadf4fa02d8de68834aceadd9166edb6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "trash",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0a124ec0edee36dd13dd963e6d355af9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c8b31e90feffc80a3983afed794269bd = $(`<div id="html_c8b31e90feffc80a3983afed794269bd" style="width: 100.0%; height: 100.0%;">     <b>Bin #10</b><br>     Area: Kukatpally<br>     Fill Level: 88%<br>     Waste Type: Hazardous<br>     Estimated Amount: 440 kg     </div>`)[0];
+                popup_0a124ec0edee36dd13dd963e6d355af9.setContent(html_c8b31e90feffc80a3983afed794269bd);
+            
+        
+
+        marker_c2cec0932d0480b105e1f02ae8abe23b.bindPopup(popup_0a124ec0edee36dd13dd963e6d355af9)
+        ;
+
+        
+    
+    
+            marker_c2cec0932d0480b105e1f02ae8abe23b.bindTooltip(
+                `<div>
+                     Bin #10 - Kukatpally
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2cec0932d0480b105e1f02ae8abe23b.setIcon(icon_aadf4fa02d8de68834aceadd9166edb6);
+            
+    
+            marker_cluster_1b6931c56c30edf6bdf1be3b17f0abec.addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            var poly_line_8ff1c49b612985db1a39784735e044a1 = L.polyline(
+                [[17.45, 78.5266], [17.385, 78.4867]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            poly_line_8ff1c49b612985db1a39784735e044a1.bindTooltip(
+                `<div>
+                     Route 1: 2 bins
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7c0759db1962cea28c1a97ee06825db = L.circleMarker(
+                [17.45, 78.5266],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            circle_marker_b7c0759db1962cea28c1a97ee06825db.bindTooltip(
+                `<div>
+                     Start of Route 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_2abddf5eedc6e6927d69b249448f7883 = L.polyline(
+                [[17.3616, 78.4747], [17.44, 78.448]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            poly_line_2abddf5eedc6e6927d69b249448f7883.bindTooltip(
+                `<div>
+                     Route 2: 2 bins
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5bb58088032328525b20559e15b37331 = L.circleMarker(
+                [17.3616, 78.4747],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            circle_marker_5bb58088032328525b20559e15b37331.bindTooltip(
+                `<div>
+                     Start of Route 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_351dd90e35d59dd92929617787ec5f7c = L.polyline(
+                [[17.5169, 78.3428], [17.4156, 78.4347]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            poly_line_351dd90e35d59dd92929617787ec5f7c.bindTooltip(
+                `<div>
+                     Route 3: 2 bins
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_43d106d1a59d57156ffc8921c7afaf09 = L.circleMarker(
+                [17.5169, 78.3428],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            circle_marker_43d106d1a59d57156ffc8921c7afaf09.bindTooltip(
+                `<div>
+                     Start of Route 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e7a803f33e3f94089bc56d2cd9e341d5 = L.polyline(
+                [[17.4474, 78.5068], [17.3855, 78.457]],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "purple", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            poly_line_e7a803f33e3f94089bc56d2cd9e341d5.bindTooltip(
+                `<div>
+                     Route 4: 2 bins
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0d279009f04bb87f6591c7ae669f2328 = L.circleMarker(
+                [17.4474, 78.5068],
+                {"bubblingMouseEvents": true, "color": "purple", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "purple", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            circle_marker_0d279009f04bb87f6591c7ae669f2328.bindTooltip(
+                `<div>
+                     Start of Route 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_376f48ecd83f15c6d84727a2a0061cec = L.polyline(
+                [[17.3687, 78.5247], [17.384, 78.4563]],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "orange", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            poly_line_376f48ecd83f15c6d84727a2a0061cec.bindTooltip(
+                `<div>
+                     Route 5: 2 bins
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_26b9f53ac34387db2318fdd961a2e632 = L.circleMarker(
+                [17.3687, 78.5247],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 3}
+            ).addTo(map_67a28342a97896d6828a61dedeaf0b1a);
+        
+    
+            circle_marker_26b9f53ac34387db2318fdd961a2e632.bindTooltip(
+                `<div>
+                     Start of Route 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
