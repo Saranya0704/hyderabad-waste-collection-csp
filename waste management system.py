@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 from folium.plugins import MarkerCluster
 
-# Define Hyderabad waste bin locations (sample data)
-# These coordinates are within Hyderabad boundaries
 hyderabad_bins = [
     {"id": 1, "lat": 17.3850, "lon": 78.4867, "fill_level": 85, "waste_type": "Organic", "area": "Banjara Hills"},
     {"id": 2, "lat": 17.4400, "lon": 78.4480, "fill_level": 70, "waste_type": "Recyclable", "area": "Secunderabad"},
@@ -19,27 +17,21 @@ hyderabad_bins = [
     {"id": 10, "lat": 17.5169, "lon": 78.3428, "fill_level": 88, "waste_type": "Hazardous", "area": "Kukatpally"}
 ]
 
-# Convert the data to a DataFrame
 df = pd.DataFrame(hyderabad_bins)
 
-# Define vehicle capacity and other constraints
-vehicle_capacity = 500  # kg
-max_route_length = 8    # maximum number of bins per route
+vehicle_capacity = 500  
+max_route_length = 8    
 
-# Function to calculate distance between two points (Haversine formula)
 def haversine_distance(lat1, lon1, lat2, lon2):
-    # Convert latitude and longitude from degrees to radians
     lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
     
-    # Haversine formula
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = np.sin(dlat/2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2)**2
     c = 2 * np.arcsin(np.sqrt(a))
-    r = 6371  # Radius of earth in kilometers
+    r = 6371 
     return c * r
 
-# Create a distance matrix between all bins
 n_bins = len(df)
 distance_matrix = np.zeros((n_bins, n_bins))
 
@@ -51,54 +43,43 @@ for i in range(n_bins):
                 df.iloc[j]['lat'], df.iloc[j]['lon']
             )
 
-# Define a simple function to create waste estimates based on fill levels
-df['waste_amount'] = df['fill_level'] * 5  # Assume 5kg per 1% fill level
+df['waste_amount'] = df['fill_level'] * 5 
 
-# CSP-inspired optimization with backtracking (simplified for this example)
 def optimize_route(start_idx, available_bins, current_load=0, current_route=None):
     if current_route is None:
         current_route = [start_idx]
     
-    # Base case: if we've reached capacity or max route length
     if current_load >= vehicle_capacity or len(current_route) >= max_route_length:
         return current_route
     
-    # Try each available bin
     best_route = current_route.copy()
     
     for next_bin in available_bins:
         if next_bin in current_route:
             continue
             
-        # Calculate the additional load
         additional_load = df.iloc[next_bin]['waste_amount']
         
-        # Skip if adding this bin would exceed capacity
         if current_load + additional_load > vehicle_capacity:
             continue
             
-        # Try adding this bin to the route
         new_route = current_route + [next_bin]
         new_load = current_load + additional_load
         
-        # Recursively optimize the rest of the route
         candidate_route = optimize_route(
             start_idx, 
             available_bins, 
             new_load, 
             new_route
         )
-        
-        # If this route is better (longer), keep it
+    
         if len(candidate_route) > len(best_route):
             best_route = candidate_route
     
     return best_route
-
-# Generate routes based on fill levels (prioritize bins with higher fill levels)
+    
 priority_bins = df.sort_values('fill_level', ascending=False).index.tolist()
 
-# Create multiple routes as needed
 routes = []
 remaining_bins = set(range(n_bins))
 
@@ -106,34 +87,28 @@ while remaining_bins:
     if not remaining_bins:
         break
         
-    # Start with the highest priority remaining bin
     for bin_idx in priority_bins:
         if bin_idx in remaining_bins:
             start_idx = bin_idx
             break
     else:
-        break  # No more bins to process
+        break 
     
-    # Optimize route starting from this bin
     route = optimize_route(start_idx, list(remaining_bins))
     
-    # Remove the bins in this route from remaining bins
     for bin_idx in route:
         if bin_idx in remaining_bins:
             remaining_bins.remove(bin_idx)
     
     routes.append(route)
-
-# Create a map centered on Hyderabad
+    
 m = folium.Map(location=[17.3850, 78.4867], zoom_start=12, tiles="cartodbpositron")
 
-# Add a title to the map
 title_html = '''
 <h3 align="center" style="font-size:16px"><b>Hyderabad Waste Collection Route Optimization</b></h3>
 '''
 m.get_root().html.add_child(folium.Element(title_html))
 
-# Color mapping for waste types
 color_map = {
     "Organic": "green",
     "Recyclable": "blue",
@@ -141,10 +116,8 @@ color_map = {
     "General": "orange"
 }
 
-# Create a marker cluster
 marker_cluster = MarkerCluster().add_to(m)
 
-# Add bin markers to the map
 for i, row in df.iterrows():
     color = color_map.get(row['waste_type'], "gray")
     popup_text = f"""
@@ -162,16 +135,13 @@ for i, row in df.iterrows():
         tooltip=f"Bin #{row['id']} - {row['area']}"
     ).add_to(marker_cluster)
 
-# Add routes to the map with different colors
 route_colors = ["red", "blue", "green", "purple", "orange", "darkred", "darkblue", "darkgreen"]
 
 for i, route in enumerate(routes):
     route_color = route_colors[i % len(route_colors)]
     
-    # Get the coordinates for each bin in the route
     route_coords = [(df.iloc[idx]['lat'], df.iloc[idx]['lon']) for idx in route]
     
-    # Create a route line
     folium.PolyLine(
         route_coords,
         color=route_color,
@@ -180,7 +150,6 @@ for i, route in enumerate(routes):
         tooltip=f"Route {i+1}: {len(route)} bins"
     ).add_to(m)
     
-    # Highlight the starting bin
     start_idx = route[0]
     folium.CircleMarker(
         location=[df.iloc[start_idx]['lat'], df.iloc[start_idx]['lon']],
@@ -192,7 +161,6 @@ for i, route in enumerate(routes):
         tooltip=f"Start of Route {i+1}"
     ).add_to(m)
     
-    # Add route information
     total_waste = sum(df.iloc[idx]['waste_amount'] for idx in route)
     areas_covered = ", ".join(df.iloc[idx]['area'] for idx in route)
     
@@ -212,8 +180,7 @@ for i, route in enumerate(routes):
     </div>
     '''
     m.get_root().html.add_child(folium.Element(route_html))
-
-# Add a legend
+    
 legend_html = '''
 <div style="position: fixed; 
             bottom: 50px; right: 10px; 
@@ -230,11 +197,9 @@ legend_html = '''
 '''
 m.get_root().html.add_child(folium.Element(legend_html))
 
-# Save the map to an HTML file
 output_file = "hyderabad_waste_collection_map.html"
 m.save(output_file)
 
-# Function to open the HTML file in a web browser
 import webbrowser
 import os
 
@@ -242,7 +207,6 @@ def open_map():
     filepath = os.path.abspath(output_file)
     webbrowser.open('file://' + filepath)
 
-# Open the map in the default web browser
 open_map()
 
 print(f"Map saved as {output_file} and opened in browser")
